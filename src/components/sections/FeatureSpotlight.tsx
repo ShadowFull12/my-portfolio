@@ -95,7 +95,7 @@ export function FeatureSpotlight() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen lg:h-[100svh] w-full flex items-center justify-center py-32 px-6 overflow-hidden z-10"
+      className="relative min-h-screen w-full flex items-center justify-center py-32 px-6 overflow-hidden z-10"
     >
       {/* Large bg word */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
@@ -107,7 +107,7 @@ export function FeatureSpotlight() {
       <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center lg:items-stretch">
 
         {/* Text side */}
-        <motion.div style={{ y: yText, opacity }} className="flex flex-col z-10 lg:h-[55vh]">
+        <motion.div style={{ y: yText, opacity }} className="flex flex-col z-10 lg:min-h-[62vh]">
           <div className="flex items-center gap-3 mb-6">
             <div className={`p-3 rounded-full border ${palette.ringBorder} ${palette.ringBg} ${palette.text}`}>
               <Icon size={22} />
@@ -123,7 +123,7 @@ export function FeatureSpotlight() {
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: -28, opacity: 0 }}
                 transition={{ duration: 0.35, ease: "easeInOut" }}
-                className="lg:absolute lg:inset-0 lg:overflow-hidden"
+                className="lg:absolute lg:inset-0"
               >
                 <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-6">{project.title}</h2>
 
