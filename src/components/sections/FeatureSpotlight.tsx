@@ -115,7 +115,7 @@ export function FeatureSpotlight() {
             <span className={`tracking-widest uppercase text-sm font-bold ${palette.text}`}>{project.badge}</span>
           </div>
 
-          <div className="relative lg:flex-1 flex flex-col">
+          <div className="relative lg:flex-1 flex flex-col lg:pb-10">
             <div className="relative lg:flex-1">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -124,7 +124,7 @@ export function FeatureSpotlight() {
                   animate={{ x: 0, opacity: 1 }}
                   exit={{ x: -28, opacity: 0 }}
                   transition={{ duration: 0.35, ease: "easeInOut" }}
-                  className="lg:absolute lg:inset-0"
+                  className="lg:absolute lg:inset-0 lg:pb-12"
                 >
                   <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-6">{project.title}</h2>
 
@@ -166,7 +166,7 @@ export function FeatureSpotlight() {
               </AnimatePresence>
             </div>
 
-            <div className="flex items-center gap-2 mt-2">
+            <div className="flex items-center gap-2 mt-3 lg:mt-0 lg:absolute lg:bottom-0 lg:left-0 z-30">
               {spotlightProjects.map((item, idx) => (
                 <button
                   key={item.title}

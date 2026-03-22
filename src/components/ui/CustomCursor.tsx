@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 
 export function CustomCursor() {
   const [visible, setVisible] = useState(false);
@@ -62,31 +62,36 @@ export function CustomCursor() {
       >
         <motion.div
           animate={{
-            scale: clicking ? 0.82 : hovering ? 1.24 : 1,
-            rotate: clicking ? -18 : hovering ? 0 : -14,
+            scale: clicking ? 0.84 : hovering ? 1.38 : 1,
+            rotate: clicking ? -24 : hovering ? 2 : -30,
           }}
           transition={{ type: "spring", stiffness: 500, damping: 25 }}
           className="relative flex items-center justify-center transform-origin-top-left"
-          style={{ transformOrigin: "2px 2px" }}
+          style={{ transformOrigin: "2px 2px", mixBlendMode: hovering ? "difference" : "normal" }}
         >
           {hovering ? (
             // Hover State: Straight transparent arrow with blue border and inverted blend effect
             <svg
-              width="30"
-              height="30"
+              width="34"
+              height="34"
               viewBox="0 0 28 28"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               style={{
-                mixBlendMode: "difference",
-                filter: "drop-shadow(0px 3px 10px rgba(59,130,246,0.45))",
+                filter: "drop-shadow(0px 4px 12px rgba(59,130,246,0.55))",
               }}
             >
               <path
                 d="M2 2L20.5 8.5L12.5 11.5L9.5 19.5L2 2Z"
-                fill="rgba(0,0,0,0.03)"
+                fill="rgba(255,255,255,0.9)"
+                opacity="0.92"
+                style={{ mixBlendMode: "difference" }}
+              />
+              <path
+                d="M2 2L20.5 8.5L12.5 11.5L9.5 19.5L2 2Z"
+                fill="rgba(0,0,0,0)"
                 stroke="#60A5FA"
-                strokeWidth="1.8"
+                strokeWidth="2"
                 strokeLinejoin="round"
               />
             </svg>
