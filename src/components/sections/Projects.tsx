@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, Github, Globe } from "lucide-react";
 
 const projects = [
@@ -48,42 +48,17 @@ const projects = [
   },
 ];
 
-const featuredProjects = [
-  {
-    title: "FistFirst-Learn",
-    description: "Gesture-based AR learning with MediaPipe hand tracking and interactive simulations.",
-    accent: "#818cf8",
-    github: "https://github.com/ShadowFull12/FistFirst-Learn",
-  },
-  {
-    title: "Cashible",
-    description: "Full Cashible app experience. Explore the live product and inspect the actual app repository.",
-    accent: "#fb923c",
-    github: "https://github.com/ShadowFull12/Cashible-App",
-    live: "https://cashible.tech",
-  },
-];
-
 export function Projects() {
   const targetRef = useRef<HTMLDivElement>(null);
-  const [featuredIndex, setFeaturedIndex] = useState(0);
   const { scrollYProgress } = useScroll({ target: targetRef });
-  const totalSlides = projects.length + 1;
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setFeaturedIndex((prev) => (prev + 1) % featuredProjects.length);
-    }, 4200);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Keep enough vertical room for horizontal scrolling across all project cards.
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", `-${(totalSlides - 1) * 100}vw`]);
+  // Reduced height for less gap - 350vh gives good scrolling without excessive empty space.
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", `-${(projects.length - 1) * 100}vw`]);
   const headerOpacity = useTransform(scrollYProgress, [0, 0.08, 0.92, 1], [0, 1, 1, 0]);
   const headerY = useTransform(scrollYProgress, [0, 0.08], [20, 0]);
 
   return (
-    <section ref={targetRef} className="relative h-[420vh] w-full" id="projects">
+    <section ref={targetRef} className="relative h-[350vh] w-full" id="projects">
       <div className="sticky top-0 h-screen w-full flex flex-col items-start justify-center overflow-hidden">
 
         <motion.div style={{ opacity: headerOpacity, y: headerY }} className="absolute top-14 left-6 md:left-16 z-20">
@@ -93,81 +68,9 @@ export function Projects() {
 
         {/* Horizontal track */}
         <motion.div
-          style={{ x, width: `${totalSlides * 100}vw` }}
+          style={{ x, width: `${projects.length * 100}vw` }}
           className="flex gap-5 px-6 md:px-16 pt-36 pb-8 h-[78vh] items-center"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.03 }}
-            className="relative shrink-0 w-[88vw] md:w-[56vw] lg:w-[45vw] h-full rounded-3xl overflow-hidden glass border border-white/15"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-neutral-800/70 to-neutral-950/80" />
-
-            <div className="absolute inset-0 p-8 md:p-10 flex flex-col justify-between">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-400 mb-3">My Projects Highlight</p>
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={featuredProjects[featuredIndex].title}
-                    initial={{ x: 32, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: -32, opacity: 0 }}
-                    transition={{ duration: 0.35, ease: "easeInOut" }}
-                  >
-                    <h3 className="text-3xl md:text-4xl font-black tracking-tight" style={{ color: featuredProjects[featuredIndex].accent }}>
-                      {featuredProjects[featuredIndex].title}
-                    </h3>
-                    <p className="text-sm md:text-base text-neutral-300 mt-3 leading-relaxed max-w-md">
-                      {featuredProjects[featuredIndex].description}
-                    </p>
-
-                    <div className="mt-5 flex items-center gap-3 flex-wrap">
-                      <a
-                        href={featuredProjects[featuredIndex].github}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-2 text-xs font-bold hoverable"
-                        style={{ color: featuredProjects[featuredIndex].accent }}
-                      >
-                        <Github size={13} />
-                        Repo
-                      </a>
-
-                      {featuredProjects[featuredIndex].live ? (
-                        <a
-                          href={featuredProjects[featuredIndex].live}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold bg-white/10 border border-white/20 hover:bg-white/15 transition-colors hoverable"
-                        >
-                          <Globe size={13} />
-                          Live: cashible.tech
-                        </a>
-                      ) : null}
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-
-              <div className="flex items-center gap-2">
-                {featuredProjects.map((item, idx) => (
-                  <button
-                    key={item.title}
-                    onClick={() => setFeaturedIndex(idx)}
-                    className="h-2.5 rounded-full transition-all"
-                    style={{
-                      width: featuredIndex === idx ? 28 : 10,
-                      backgroundColor: featuredIndex === idx ? item.accent : "rgba(255,255,255,0.22)",
-                    }}
-                    aria-label={`Show ${item.title} highlight`}
-                  />
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
           {projects.map((project, index) => (
             <motion.div
               key={index}
