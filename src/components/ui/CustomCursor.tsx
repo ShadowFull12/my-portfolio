@@ -62,24 +62,33 @@ export function CustomCursor() {
       >
         <motion.div
           animate={{
-            scale: clicking ? 0.8 : hovering ? 1.15 : 1,
-            rotate: clicking ? -15 : hovering ? -5 : 0,
+            scale: clicking ? 0.82 : hovering ? 1.24 : 1,
+            rotate: clicking ? -18 : hovering ? 0 : -14,
           }}
           transition={{ type: "spring", stiffness: 500, damping: 25 }}
           className="relative flex items-center justify-center transform-origin-top-left"
           style={{ transformOrigin: "2px 2px" }}
         >
           {hovering ? (
-            // Hover State: Glowing Crosshair Target
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ transform: "translate(-14px, -14px)" }}>
-              <circle cx="16" cy="16" r="12" stroke="url(#hover-grad)" strokeWidth="2" strokeDasharray="4 4" className="animate-[spin_4s_linear_infinite]" />
-              <circle cx="16" cy="16" r="4" fill="#60A5FA" />
-              <defs>
-                <linearGradient id="hover-grad" x1="0" y1="0" x2="32" y2="32">
-                  <stop stopColor="#60A5FA" />
-                  <stop offset="1" stopColor="#A855F7" />
-                </linearGradient>
-              </defs>
+            // Hover State: Straight transparent arrow with blue border and inverted blend effect
+            <svg
+              width="30"
+              height="30"
+              viewBox="0 0 28 28"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              style={{
+                mixBlendMode: "difference",
+                filter: "drop-shadow(0px 3px 10px rgba(59,130,246,0.45))",
+              }}
+            >
+              <path
+                d="M2 2L20.5 8.5L12.5 11.5L9.5 19.5L2 2Z"
+                fill="rgba(0,0,0,0.03)"
+                stroke="#60A5FA"
+                strokeWidth="1.8"
+                strokeLinejoin="round"
+              />
             </svg>
           ) : (
             // Default State: Sleek Arrow
