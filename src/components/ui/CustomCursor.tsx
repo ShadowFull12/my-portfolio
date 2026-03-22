@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { motion, useMotionValue } from "framer-motion";
 
 export function CustomCursor() {
@@ -63,14 +63,14 @@ export function CustomCursor() {
         <motion.div
           animate={{
             scale: clicking ? 0.84 : hovering ? 1.38 : 1,
-            rotate: clicking ? -24 : hovering ? 2 : -30,
+            rotate: clicking ? -18 : hovering ? 0 : -12,
           }}
           transition={{ type: "spring", stiffness: 500, damping: 25 }}
           className="relative flex items-center justify-center transform-origin-top-left"
-          style={{ transformOrigin: "2px 2px", mixBlendMode: hovering ? "difference" : "normal" }}
+          style={{ transformOrigin: "2px 2px" }}
         >
           {hovering ? (
-            // Hover State: Straight transparent arrow with blue border and inverted blend effect
+            // Hover State: Straight transparent arrow with a thin blue border
             <svg
               width="34"
               height="34"
@@ -83,15 +83,9 @@ export function CustomCursor() {
             >
               <path
                 d="M2 2L20.5 8.5L12.5 11.5L9.5 19.5L2 2Z"
-                fill="rgba(255,255,255,0.9)"
-                opacity="0.92"
-                style={{ mixBlendMode: "difference" }}
-              />
-              <path
-                d="M2 2L20.5 8.5L12.5 11.5L9.5 19.5L2 2Z"
-                fill="rgba(0,0,0,0)"
+                fill="transparent"
                 stroke="#60A5FA"
-                strokeWidth="2"
+                strokeWidth="1.2"
                 strokeLinejoin="round"
               />
             </svg>
