@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, Github } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
+import { ArrowUpRight, Github, Globe } from "lucide-react";
 
 const projects = [
   {
@@ -38,18 +38,43 @@ const projects = [
   {
     title: "Cashible",
     description:
-      "Conversion-focused financial landing page with smooth animations and performance optimization.",
-    tech: ["Next.js", "Tailwind CSS"],
+      "Finance web app for practical money workflows with polished UI, app routing, and production-focused UX.",
+    tech: ["Next.js", "TypeScript", "Tailwind CSS", "App Router"],
     color: "from-orange-500/35 to-red-500/20",
     accent: "#fb923c",
     number: "04",
-    github: "https://github.com/ShadowFull12/Cashible",
+    github: "https://github.com/ShadowFull12/Cashible-App",
+    live: "https://cashible.tech",
+  },
+];
+
+const featuredProjects = [
+  {
+    title: "FistFirst-Learn",
+    description: "Gesture-based AR learning with MediaPipe hand tracking and interactive simulations.",
+    accent: "#818cf8",
+    github: "https://github.com/ShadowFull12/FistFirst-Learn",
+  },
+  {
+    title: "Cashible",
+    description: "Full Cashible app experience. Explore the live product and inspect the actual app repository.",
+    accent: "#fb923c",
+    github: "https://github.com/ShadowFull12/Cashible-App",
+    live: "https://cashible.tech",
   },
 ];
 
 export function Projects() {
   const targetRef = useRef<HTMLDivElement>(null);
+  const [featuredIndex, setFeaturedIndex] = useState(0);
   const { scrollYProgress } = useScroll({ target: targetRef });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setFeaturedIndex((prev) => (prev + 1) % featuredProjects.length);
+    }, 4200);
+    return () => clearInterval(timer);
+  }, []);
 
   // Reduced height for less gap — 350vh gives good scrolling without excessive empty space
   const x = useTransform(scrollYProgress, [0, 1], ["0%", `-${(projects.length - 1) * 100}vw`]);
@@ -63,6 +88,72 @@ export function Projects() {
         <motion.div style={{ opacity: headerOpacity, y: headerY }} className="absolute top-14 left-6 md:left-16 z-20">
           <p className="text-accent text-[10px] font-black tracking-widest uppercase mb-1">Featured Projects</p>
           <h2 className="text-4xl md:text-6xl font-black tracking-tighter">Selected Works</h2>
+        </motion.div>
+
+        <motion.div
+          style={{ opacity: headerOpacity }}
+          className="absolute top-14 right-6 md:right-16 z-20 w-[calc(100%-3rem)] md:w-[430px]"
+        >
+          <div className="rounded-2xl glass border border-white/15 p-4 md:p-5">
+            <p className="text-[10px] uppercase tracking-[0.22em] text-neutral-400 mb-2">Highlight Reel</p>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={featuredProjects[featuredIndex].title}
+                initial={{ x: 40, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -40, opacity: 0 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+              >
+                <p className="text-xl md:text-2xl font-black tracking-tight" style={{ color: featuredProjects[featuredIndex].accent }}>
+                  {featuredProjects[featuredIndex].title}
+                </p>
+                <p className="text-xs md:text-sm text-neutral-300 mt-2 leading-relaxed">
+                  {featuredProjects[featuredIndex].description}
+                </p>
+
+                <div className="mt-4 flex items-center gap-3">
+                  <a
+                    href={featuredProjects[featuredIndex].github}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 text-xs font-bold hoverable"
+                    style={{ color: featuredProjects[featuredIndex].accent }}
+                  >
+                    <Github size={13} />
+                    Repo
+                  </a>
+
+                  {featuredProjects[featuredIndex].live ? (
+                    <a
+                      href={featuredProjects[featuredIndex].live}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-bold bg-white/10 border border-white/20 hover:bg-white/15 transition-colors hoverable"
+                    >
+                      <Globe size={13} />
+                      Live: cashible.tech
+                    </a>
+                  ) : null}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            <div className="mt-4 flex items-center gap-2">
+              {featuredProjects.map((item, idx) => (
+                <button
+                  key={item.title}
+                  onClick={() => setFeaturedIndex(idx)}
+                  className="h-2.5 rounded-full transition-all"
+                  style={{
+                    width: featuredIndex === idx ? 28 : 10,
+                    backgroundColor: featuredIndex === idx ? item.accent : "rgba(255,255,255,0.22)",
+                  }}
+                  aria-label={`Show ${item.title} highlight`}
+                />
+              ))}
+            </div>
+          </div>
         </motion.div>
 
         {/* Horizontal track */}
@@ -135,6 +226,17 @@ export function Projects() {
                   >
                     <Github size={13} /> View on GitHub
                   </a>
+                  {project.live ? (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-4 inline-flex items-center gap-2 text-xs font-bold opacity-70 hover:opacity-100 transition-opacity hoverable"
+                      style={{ color: project.accent }}
+                    >
+                      <Globe size={13} /> Live App
+                    </a>
+                  ) : null}
                 </div>
               </div>
             </motion.div>
