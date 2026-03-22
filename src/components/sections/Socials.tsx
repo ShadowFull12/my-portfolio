@@ -17,7 +17,7 @@ export function Socials() {
   const reversedSocials = [...duplicatedSocials].reverse();
 
   return (
-    <section className="py-20 w-full overflow-hidden border-t border-white/5 bg-[#030303] relative" id="socials">
+    <section className="py-20 w-full overflow-hidden border-t border-white/5 bg-[#030303] relative" id="connect">
       <div className="text-center mb-12">
         <p className="text-accent text-[10px] font-black tracking-widest uppercase mb-1">Connect</p>
         <h2 className="text-3xl md:text-5xl font-black tracking-tighter">Find Me Online</h2>
