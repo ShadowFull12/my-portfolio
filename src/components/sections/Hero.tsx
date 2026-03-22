@@ -5,7 +5,20 @@ import { motion, useAnimation, useInView } from "framer-motion";
 import { Download, ArrowRight } from "lucide-react";
 import Image from "next/image";
 
-const ROLES = ["AI/ML Engineer", "Web Developer", "Full Stack Developer", "Software Engineer", "Database Manager"];
+const ROLES = [
+  "AI/ML Engineer",
+  "Web Developer",
+  "Full Stack Developer",
+  "Software Engineer",
+  "Database Manager",
+  "CS Student",
+  "Tech Enthusiast",
+  "Problem Solver",
+  "Open Source Contributor",
+  "UI/UX Explorer",
+  "Cloud Learner",
+  "Creative Coder",
+];
 
 import { AnimatePresence } from "framer-motion";
 
@@ -99,11 +112,11 @@ function AnimatedName() {
           {firstName.split("").map((char, i) => (
             <motion.span
               key={`f-${i}`}
-              initial={{ y: "110%", opacity: 0, rotateX: -80 }}
-              animate={inView ? { y: 0, opacity: 1, rotateX: 0 } : {}}
-              transition={{ duration: 1.1, delay: 0.25 + i * 0.05, ease: [0.16, 1, 0.3, 1] }}
-              style={{ display: "inline-block", transformOrigin: "bottom" }}
-              className="text-[15vw] sm:text-[12vw] md:text-[9vw] lg:text-[8vw] font-black tracking-[-0.04em] text-white transition-colors duration-500 group-hover:text-blue-200"
+              initial={{ y: 72, opacity: 0 }}
+              animate={inView ? { y: 0, opacity: 1 } : {}}
+              transition={{ duration: 0.75, delay: 0.2 + i * 0.045, ease: [0.22, 1, 0.36, 1] }}
+              style={{ display: "inline-block", willChange: "transform, opacity" }}
+              className="text-[15vw] sm:text-[12vw] md:text-[9vw] lg:text-[8vw] font-black tracking-[-0.04em] text-white transition-colors duration-500 group-hover:text-blue-200 transform-gpu"
             >
               {char}
             </motion.span>
@@ -118,11 +131,11 @@ function AnimatedName() {
           {lastName.split("").map((char, i) => (
             <motion.span
               key={`l-${i}`}
-              initial={{ y: "110%", opacity: 0, rotateX: -80 }}
-              animate={inView ? { y: 0, opacity: 1, rotateX: 0 } : {}}
-              transition={{ duration: 1.1, delay: 0.6 + i * 0.045, ease: [0.16, 1, 0.3, 1] }}
-              style={{ display: "inline-block", transformOrigin: "bottom" }}
-              className="text-[15vw] sm:text-[12vw] md:text-[9vw] lg:text-[8vw] font-black tracking-[-0.04em] text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-500 transition-all duration-500 group-hover:from-blue-300 group-hover:to-purple-400"
+              initial={{ y: 72, opacity: 0 }}
+              animate={inView ? { y: 0, opacity: 1 } : {}}
+              transition={{ duration: 0.78, delay: 0.48 + i * 0.04, ease: [0.22, 1, 0.36, 1] }}
+              style={{ display: "inline-block", willChange: "transform, opacity" }}
+              className="text-[15vw] sm:text-[12vw] md:text-[9vw] lg:text-[8vw] font-black tracking-[-0.04em] text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-500 transition-all duration-500 group-hover:from-blue-300 group-hover:to-purple-400 transform-gpu"
             >
               {char}
             </motion.span>
