@@ -51,7 +51,7 @@ export function Socials() {
         </div>
 
         {/* Row 2 moving right */}
-        <div className="flex w-full overflow-hidden whitespace-nowrap justify-end">
+        <div className="flex w-full overflow-hidden whitespace-nowrap">
           <motion.div 
             className="flex gap-6 w-max"
             animate={{ x: ["-50%", "0%"] }}
