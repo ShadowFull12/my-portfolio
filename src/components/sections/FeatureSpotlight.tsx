@@ -95,7 +95,7 @@ export function FeatureSpotlight() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen w-full flex items-center justify-center py-32 px-6 overflow-hidden z-10"
+      className="relative min-h-screen w-full flex items-center justify-center py-32 px-6 overflow-x-hidden z-10"
     >
       {/* Large bg word */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
@@ -107,7 +107,7 @@ export function FeatureSpotlight() {
       <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center lg:items-stretch">
 
         {/* Text side */}
-        <motion.div style={{ y: yText, opacity }} className="flex flex-col z-10 lg:min-h-[62vh]">
+        <motion.div style={{ y: yText, opacity }} className="flex flex-col z-10 lg:min-h-[72vh]">
           <div className="flex items-center gap-3 mb-6">
             <div className={`p-3 rounded-full border ${palette.ringBorder} ${palette.ringBg} ${palette.text}`}>
               <Icon size={22} />
@@ -129,7 +129,7 @@ export function FeatureSpotlight() {
 
                 <p className="text-xl text-neutral-400 mb-6 leading-relaxed">{project.description}</p>
 
-                <ul className="text-neutral-500 text-sm space-y-2 mb-10">
+                <ul className="text-neutral-500 text-sm space-y-2 mb-8">
                   {project.bullets.map((f) => (
                     <li key={f} className="flex items-center gap-2">
                       <div className={`w-1.5 h-1.5 rounded-full ${palette.dot}`} />
@@ -138,7 +138,7 @@ export function FeatureSpotlight() {
                   ))}
                 </ul>
 
-                <div className="flex items-center gap-3 flex-wrap mb-8">
+                <div className="flex items-center gap-3 flex-wrap mb-5">
                   <a
                     href={project.github}
                     target="_blank"
