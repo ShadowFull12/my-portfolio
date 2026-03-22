@@ -95,7 +95,7 @@ export function FeatureSpotlight() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen w-full flex items-center justify-center py-32 px-6 overflow-hidden z-10"
+      className="relative min-h-screen lg:h-[100svh] w-full flex items-center justify-center py-32 px-6 overflow-hidden z-10"
     >
       {/* Large bg word */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
@@ -104,10 +104,10 @@ export function FeatureSpotlight() {
         </span>
       </div>
 
-      <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+      <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center lg:items-stretch">
 
         {/* Text side */}
-        <motion.div style={{ y: yText, opacity }} className="flex flex-col z-10">
+        <motion.div style={{ y: yText, opacity }} className="flex flex-col z-10 lg:h-[55vh]">
           <div className="flex items-center gap-3 mb-6">
             <div className={`p-3 rounded-full border ${palette.ringBorder} ${palette.ringBg} ${palette.text}`}>
               <Icon size={22} />
@@ -115,54 +115,57 @@ export function FeatureSpotlight() {
             <span className={`tracking-widest uppercase text-sm font-bold ${palette.text}`}>{project.badge}</span>
           </div>
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={project.title}
-              initial={{ x: 28, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -28, opacity: 0 }}
-              transition={{ duration: 0.35, ease: "easeInOut" }}
-            >
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-6">{project.title}</h2>
+          <div className="relative lg:flex-1">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={project.title}
+                initial={{ x: 28, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -28, opacity: 0 }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="lg:absolute lg:inset-0 lg:overflow-hidden"
+              >
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-6">{project.title}</h2>
 
-              <p className="text-xl text-neutral-400 mb-6 leading-relaxed">{project.description}</p>
+                <p className="text-xl text-neutral-400 mb-6 leading-relaxed">{project.description}</p>
 
-              <ul className="text-neutral-500 text-sm space-y-2 mb-10">
-                {project.bullets.map((f) => (
-                  <li key={f} className="flex items-center gap-2">
-                    <div className={`w-1.5 h-1.5 rounded-full ${palette.dot}`} />
-                    {f}
-                  </li>
-                ))}
-              </ul>
+                <ul className="text-neutral-500 text-sm space-y-2 mb-10">
+                  {project.bullets.map((f) => (
+                    <li key={f} className="flex items-center gap-2">
+                      <div className={`w-1.5 h-1.5 rounded-full ${palette.dot}`} />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
 
-              <div className="flex items-center gap-3 flex-wrap mb-8">
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={`group inline-flex items-center gap-2 px-7 py-3.5 rounded-full ${palette.button} text-white font-bold transition-colors w-fit hoverable`}
-                >
-                  <Github size={18} />
-                  View on GitHub
-                </a>
-
-                {project.live ? (
+                <div className="flex items-center gap-3 flex-wrap mb-8">
                   <a
-                    href={project.live}
+                    href={project.github}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 text-white font-bold transition-colors hoverable"
+                    className={`group inline-flex items-center gap-2 px-7 py-3.5 rounded-full ${palette.button} text-white font-bold transition-colors w-fit hoverable`}
                   >
-                    <Globe size={16} />
-                    Open cashible.tech
+                    <Github size={18} />
+                    View on GitHub
                   </a>
-                ) : null}
-              </div>
-            </motion.div>
-          </AnimatePresence>
 
-          <div className="flex items-center gap-2">
+                  {project.live ? (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 text-white font-bold transition-colors hoverable"
+                    >
+                      <Globe size={16} />
+                      Open cashible.tech
+                    </a>
+                  ) : null}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div className="flex items-center gap-2 lg:mt-3">
             {spotlightProjects.map((item, idx) => (
               <button
                 key={item.title}
