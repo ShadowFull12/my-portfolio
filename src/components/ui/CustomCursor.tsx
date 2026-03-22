@@ -8,40 +8,21 @@ export function CustomCursor() {
   const [hovering, setHovering] = useState(false);
   const [clicking, setClicking] = useState(false);
 
-  const mouseX = useMotionValue(-200);
-  const mouseY = useMotionValue(-200);
-
-  // Main dot — snaps instantly
-  const dotX = useSpring(mouseX, { stiffness: 2000, damping: 60 });
-  const dotY = useSpring(mouseY, { stiffness: 2000, damping: 60 });
-
-  // Trailing ring — lags behind
-  const ringX = useSpring(mouseX, { stiffness: 180, damping: 22 });
-  const ringY = useSpring(mouseY, { stiffness: 180, damping: 22 });
-
-  // Secondary trail — lags more
-  const trail2X = useSpring(mouseX, { stiffness: 80, damping: 18 });
-  const trail2Y = useSpring(mouseY, { stiffness: 80, damping: 18 });
-
-  // Third trail
-  const trail3X = useSpring(mouseX, { stiffness: 45, damping: 14 });
-  const trail3Y = useSpring(mouseY, { stiffness: 45, damping: 14 });
-
-  const trailsRef = useRef<{ x: number; y: number }[]>([]);
+  // Directly bind motion values for ZERO lag
+  const mouseX = useMotionValue(-100);
+  const mouseY = useMotionValue(-100);
 
   useEffect(() => {
     const moveCursor = (e: MouseEvent) => {
-      mouseX.set(e.clientX);
-      mouseY.set(e.clientY);
+      // Offset slightly to perfectly align the custom SVG's tip (which starts around 2,2)
+      mouseX.set(e.clientX - 2);
+      mouseY.set(e.clientY - 2);
       if (!visible) setVisible(true);
-      trailsRef.current = [{ x: e.clientX, y: e.clientY }, ...trailsRef.current.slice(0, 4)];
     };
 
     const onMouseOver = (e: MouseEvent) => {
       const el = e.target as HTMLElement;
-      setHovering(
-        !!el.closest("a, button, .hoverable, [role=button]")
-      );
+      setHovering(!!el.closest("a, button, .hoverable, [role=button]"));
     };
 
     const onMouseDown = () => setClicking(true);
@@ -66,83 +47,61 @@ export function CustomCursor() {
     };
   }, [mouseX, mouseY, visible]);
 
-  const ringSize = clicking ? 20 : hovering ? 52 : 36;
-  const dotSize = clicking ? 4 : hovering ? 0 : 5;
-
   return (
     <>
       <style>{`* { cursor: none !important; }`}</style>
 
-      {/* Trail 3 – slowest, most faded */}
+      {/* Main Cursor Element - Instant Tracking */}
       <motion.div
-        className="fixed top-0 left-0 rounded-full pointer-events-none z-[9990] hidden md:block"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block"
         style={{
-          x: trail3X,
-          y: trail3Y,
-          width: 12,
-          height: 12,
-          marginLeft: -6,
-          marginTop: -6,
-          background: "rgba(59,130,246,0.12)",
-          filter: "blur(2px)",
+          x: mouseX,
+          y: mouseY,
           opacity: visible ? 1 : 0,
         }}
-      />
-
-      {/* Trail 2 */}
-      <motion.div
-        className="fixed top-0 left-0 rounded-full pointer-events-none z-[9992] hidden md:block"
-        style={{
-          x: trail2X,
-          y: trail2Y,
-          width: 16,
-          height: 16,
-          marginLeft: -8,
-          marginTop: -8,
-          background: "rgba(59,130,246,0.2)",
-          filter: "blur(1px)",
-          opacity: visible ? 1 : 0,
-        }}
-      />
-
-      {/* Outer ring */}
-      <motion.div
-        className="fixed top-0 left-0 rounded-full pointer-events-none z-[9994] hidden md:block"
-        style={{
-          x: ringX,
-          y: ringY,
-          width: ringSize,
-          height: ringSize,
-          marginLeft: -ringSize / 2,
-          marginTop: -ringSize / 2,
-          border: hovering ? "1.5px solid rgba(59,130,246,0.8)" : "1.5px solid rgba(255,255,255,0.4)",
-          background: hovering ? "rgba(59,130,246,0.08)" : "transparent",
-          opacity: visible ? 1 : 0,
-          transition: "width 0.25s ease, height 0.25s ease, margin 0.25s ease, border-color 0.25s ease",
-        }}
-        animate={
-          hovering
-            ? { boxShadow: "0 0 14px 2px rgba(59,130,246,0.3)" }
-            : { boxShadow: "none" }
-        }
-      />
-
-      {/* Inner dot */}
-      <motion.div
-        className="fixed top-0 left-0 rounded-full pointer-events-none z-[9999] hidden md:block"
-        style={{
-          x: dotX,
-          y: dotY,
-          width: dotSize,
-          height: dotSize,
-          marginLeft: -dotSize / 2,
-          marginTop: -dotSize / 2,
-          background: hovering ? "rgba(59,130,246,1)" : "rgba(255,255,255,1)",
-          boxShadow: "0 0 8px 2px rgba(59,130,246,0.7)",
-          opacity: visible ? 1 : 0,
-          transition: "width 0.2s ease, height 0.2s ease, margin 0.2s ease, background 0.2s ease",
-        }}
-      />
+      >
+        <motion.div
+          animate={{
+            scale: clicking ? 0.8 : hovering ? 1.15 : 1,
+            rotate: clicking ? -15 : hovering ? -5 : 0,
+          }}
+          transition={{ type: "spring", stiffness: 500, damping: 25 }}
+          className="relative flex items-center justify-center transform-origin-top-left"
+          style={{ transformOrigin: "2px 2px" }}
+        >
+          {hovering ? (
+            // Hover State: Glowing Crosshair Target
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ transform: "translate(-14px, -14px)" }}>
+              <circle cx="16" cy="16" r="12" stroke="url(#hover-grad)" strokeWidth="2" strokeDasharray="4 4" className="animate-[spin_4s_linear_infinite]" />
+              <circle cx="16" cy="16" r="4" fill="#60A5FA" />
+              <defs>
+                <linearGradient id="hover-grad" x1="0" y1="0" x2="32" y2="32">
+                  <stop stopColor="#60A5FA" />
+                  <stop offset="1" stopColor="#A855F7" />
+                </linearGradient>
+              </defs>
+            </svg>
+          ) : (
+            // Default State: Sleek Arrow
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path 
+                d="M2 2L20.5 8.5L12.5 11.5L9.5 19.5L2 2Z" 
+                fill="url(#cursor-gradient)" 
+                stroke="white" 
+                strokeWidth="1.5" 
+                strokeLinejoin="round"
+                style={{ filter: "drop-shadow(0px 4px 8px rgba(59,130,246,0.4))" }}
+              />
+              <defs>
+                <linearGradient id="cursor-gradient" x1="2" y1="2" x2="20.5" y2="19.5" gradientUnits="userSpaceOnUse">
+                  <stop stopColor="#3B82F6" />
+                  <stop offset="1" stopColor="#8B5CF6" />
+                </linearGradient>
+              </defs>
+            </svg>
+          )}
+        </motion.div>
+      </motion.div>
     </>
   );
 }
