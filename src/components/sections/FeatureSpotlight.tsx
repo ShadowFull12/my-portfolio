@@ -115,7 +115,7 @@ export function FeatureSpotlight() {
             <span className={`tracking-widest uppercase text-sm font-bold ${palette.text}`}>{project.badge}</span>
           </div>
 
-          <div className="relative lg:flex-1">
+          <div className="relative lg:flex-1 lg:pb-12">
             <AnimatePresence mode="wait">
               <motion.div
                 key={project.title}
@@ -163,26 +163,26 @@ export function FeatureSpotlight() {
                 </div>
               </motion.div>
             </AnimatePresence>
-          </div>
 
-          <div className="flex items-center gap-2 lg:mt-3">
-            {spotlightProjects.map((item, idx) => (
-              <button
-                key={item.title}
-                onClick={() => setActiveIndex(idx)}
-                aria-label={`Show ${item.title}`}
-                className="h-2.5 rounded-full transition-all"
-                style={{
-                  width: activeIndex === idx ? 28 : 10,
-                  backgroundColor:
-                    activeIndex === idx
-                      ? item.color === "orange"
-                        ? "#fb923c"
-                        : "#a78bfa"
-                      : "rgba(255,255,255,0.24)",
-                }}
-              />
-            ))}
+            <div className="flex items-center gap-2 mt-2 lg:mt-0 lg:absolute lg:bottom-0 lg:left-0 z-20">
+              {spotlightProjects.map((item, idx) => (
+                <button
+                  key={item.title}
+                  onClick={() => setActiveIndex(idx)}
+                  aria-label={`Show ${item.title}`}
+                  className="h-2.5 rounded-full transition-all"
+                  style={{
+                    width: activeIndex === idx ? 28 : 10,
+                    backgroundColor:
+                      activeIndex === idx
+                        ? item.color === "orange"
+                          ? "#fb923c"
+                          : "#a78bfa"
+                        : "rgba(255,255,255,0.24)",
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </motion.div>
 
