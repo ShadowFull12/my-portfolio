@@ -162,28 +162,28 @@ export function FeatureSpotlight() {
                       </a>
                     ) : null}
                   </div>
+
+                  <div className="flex items-center gap-2 mt-2">
+                    {spotlightProjects.map((item, idx) => (
+                      <button
+                        key={item.title}
+                        onClick={() => setActiveIndex(idx)}
+                        aria-label={`Show ${item.title}`}
+                        className="h-2.5 rounded-full transition-all"
+                        style={{
+                          width: activeIndex === idx ? 28 : 10,
+                          backgroundColor:
+                            activeIndex === idx
+                              ? item.color === "orange"
+                                ? "#fb923c"
+                                : "#a78bfa"
+                              : "rgba(255,255,255,0.24)",
+                        }}
+                      />
+                    ))}
+                  </div>
                 </motion.div>
               </AnimatePresence>
-            </div>
-
-            <div className="flex items-center gap-2 mt-4 z-30">
-              {spotlightProjects.map((item, idx) => (
-                <button
-                  key={item.title}
-                  onClick={() => setActiveIndex(idx)}
-                  aria-label={`Show ${item.title}`}
-                  className="h-2.5 rounded-full transition-all"
-                  style={{
-                    width: activeIndex === idx ? 28 : 10,
-                    backgroundColor:
-                      activeIndex === idx
-                        ? item.color === "orange"
-                          ? "#fb923c"
-                          : "#a78bfa"
-                        : "rgba(255,255,255,0.24)",
-                  }}
-                />
-              ))}
             </div>
           </div>
         </motion.div>
